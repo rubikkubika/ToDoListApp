@@ -1,5 +1,6 @@
 package ru.retsko.todolistapp.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ public class TaskController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Получение списка задач по Исполнителю")
     @GetMapping("/executor")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Task> getAllTaskByUserName(@Parameter(description = "Имя исполнителя") @RequestParam(name = "executorname") String executorName,
@@ -51,12 +53,16 @@ public class TaskController {
         if (!Objects.equals(executorName, principal.getName()) && principalUserRolesList.stream().noneMatch(role -> Objects.equals(role.getName(), "ROLE_ADMIN"))) {
             throw new UnathorizatedException("Вы можете просматривать только свои задачи");
         }
+        if (!Objects.equals(search, "")) {
+            return taskService.getAllTaskByExecutorDescriptionContains(executor, offset, limit, search);
+        }
         return taskService.getAllTaskByExecutor(executor, offset, limit);
     }
 
+    @Operation(summary = "Изменение задачи по исполнителю")
     @PostMapping("/change")
     @Produces(MediaType.APPLICATION_JSON)
-    public Object changeTask(@Valid @RequestBody TaskDto taskDto, Principal principal) {
+    public Object changeTask(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Необходимо передать Задачу с id и полями для изменения") @Valid @RequestBody TaskDto taskDto, Principal principal) {
         if (principal == null) {
             throw new UnathorizatedException("Требуется Авторизация");
         }
@@ -66,10 +72,13 @@ public class TaskController {
 
         boolean isAdmin = principalUser.getRoles().stream()
                 .anyMatch(role -> "ROLE_ADMIN".equals(role.getName()));
-        
+
         if (isAdmin) {
             if (taskDto.getDescription() != null) task.setDescription(taskDto.getDescription());
             if (taskDto.getStatus() != null) task.setStatus(taskDto.getStatus());
+            if (taskDto.getTitle() != null) task.setTitle(taskDto.getTitle());
+            if (taskDto.getPriority() != null) task.setPriority(taskDto.getPriority());
+            if (taskDto.getExecutor() != null) task.setExecutor(taskDto.getExecutor());
         } else {
             if (!Objects.equals(task.getExecutor().getUsername(), principal.getName())) {
                 throw new UnathorizatedException("Вы можете Редактировать только свои задачи");

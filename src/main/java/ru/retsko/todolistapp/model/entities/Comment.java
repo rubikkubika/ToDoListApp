@@ -28,7 +28,6 @@ public class Comment implements Serializable {
     private User author;
     @Column(name = "description")
     private String description;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

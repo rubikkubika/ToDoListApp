@@ -42,7 +42,6 @@ public class SecurityConfig {
                 .cors().disable()
                 .authorizeRequests()
                 //.antMatchers("/task/").authenticated()
-                .antMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -44,4 +44,8 @@ public class Task implements Serializable {
     private LocalDateTime end;
     @Column(name = "start_task")
     private LocalDateTime start;
+
+    public Task(String title) {
+        this.title = title;
+    }
 }

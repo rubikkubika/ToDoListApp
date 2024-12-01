@@ -36,4 +36,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Collection<Role> roles;
+
+    public User(String user) {
+    }
 }

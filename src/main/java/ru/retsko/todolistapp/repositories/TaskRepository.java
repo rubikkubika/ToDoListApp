@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long>, PagingAndSortingRepository<Task, Long> {
     List<Task> getAllByExecutor(User executor, Pageable pageable);
+
+    List<Task> findByExecutorAndDescriptionContains(User executor, Pageable pageable, String search);
 }

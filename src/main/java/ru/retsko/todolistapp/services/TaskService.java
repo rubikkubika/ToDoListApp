@@ -25,10 +25,17 @@ public class TaskService {
         Pageable pageable = PageRequest.of(offset, limit);
         return taskRepository.getAllByExecutor(executor, pageable);
     }
-    public  Task getTaskByiD(Long id){
+
+    public List<Task> getAllTaskByExecutorDescriptionContains(User executor, Integer offset, Integer limit, String search) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        return taskRepository.findByExecutorAndDescriptionContains(executor, pageable, search);
+    }
+
+    public Task getTaskByiD(Long id) {
         return taskRepository.findById(id).get();
     }
-    public  void saveTask(Task task){
+
+    public void saveTask(Task task) {
         taskRepository.save(task);
     }
 }
