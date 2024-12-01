@@ -102,5 +102,5 @@ public class Init {
             entityManager.persist(comment);
         }
     }
-
+//te
 }
