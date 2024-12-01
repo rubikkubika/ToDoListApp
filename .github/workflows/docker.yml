@@ -24,7 +24,7 @@ jobs:
       - name: Build and tag image
         run: docker compose build
 
-      - name: Docker login
+      - name: Docker  registry login
         run: docker login segmentadminka.ru -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       #Publish image:
