@@ -93,7 +93,6 @@ public class Init {
         for (long i = 0L; i < 20L; i++) {
             Comment comment = Comment
                     .builder()
-                    .title("Комментарий №" + i)
                     .description("Описание для Комментария №" + i)
                     .author(userRepository.findById((long) ((Math.random() * 2) + 1)).get())
                     .task(taskRepository.findById((long) (1 + Math.random() * 20)).get())

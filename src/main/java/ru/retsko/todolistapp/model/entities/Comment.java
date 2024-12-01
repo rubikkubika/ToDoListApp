@@ -22,8 +22,6 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
-    @Column(name = "title")
-    private String title;
     @ManyToOne(fetch = FetchType.LAZY)
     private User author;
     @Column(name = "description")
@@ -33,4 +31,9 @@ public class Comment implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Task task;
+
+    public Comment(User author, String description) {
+        this.author = author;
+        this.description = description;
+    }
 }

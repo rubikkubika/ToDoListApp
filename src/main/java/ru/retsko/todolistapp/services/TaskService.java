@@ -3,6 +3,7 @@ package ru.retsko.todolistapp.services;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.retsko.todolistapp.exceptions.NotFoundException;
 import ru.retsko.todolistapp.model.entities.Task;
 import ru.retsko.todolistapp.model.entities.User;
 import ru.retsko.todolistapp.repositories.TaskRepository;
@@ -32,7 +33,7 @@ public class TaskService {
     }
 
     public Task getTaskByiD(Long id) {
-        return taskRepository.findById(id).get();
+        return taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Задачи с таким Ид нет"));
     }
 
     public void saveTask(Task task) {
